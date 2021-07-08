@@ -66,5 +66,8 @@ void rt_hw_cpu_reset(void)
     sbi_shutdown();
     while(1);
 }
+// void rt_hw_us_delay(rt_uint32_t us){
+//     while(us --);
+// }
 MSH_CMD_EXPORT_ALIAS(rt_hw_cpu_reset, reboot, reset machine);
 

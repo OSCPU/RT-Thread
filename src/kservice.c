@@ -1192,6 +1192,41 @@ void rt_kputs(const char *str)
  *
  * @param fmt the format
  */
+
+RT_WEAK void rt_kvprintf(const char *fmt, va_list args)
+{
+    // va_list args;
+    rt_size_t length;
+    static char rt_log_buf[RT_CONSOLEBUF_SIZE];
+
+    // va_start(args, fmt);
+    /* the return value of vsnprintf is the number of bytes that would be
+     * written to buffer had if the size of the buffer been sufficiently
+     * large excluding the terminating null byte. If the output string
+     * would be larger than the rt_log_buf, we have to adjust the output
+     * length. */
+    length = rt_vsnprintf(rt_log_buf, sizeof(rt_log_buf) - 1, fmt, args);
+    if (length > RT_CONSOLEBUF_SIZE - 1)
+        length = RT_CONSOLEBUF_SIZE - 1;
+#ifdef RT_USING_DEVICE
+    if (_console_device == RT_NULL)
+    {
+        rt_hw_console_output(rt_log_buf);
+    }
+    else
+    {
+        rt_uint16_t old_flag = _console_device->open_flag;
+
+        _console_device->open_flag |= RT_DEVICE_FLAG_STREAM;
+        rt_device_write(_console_device, 0, rt_log_buf, length);
+        _console_device->open_flag = old_flag;
+    }
+#else
+    rt_hw_console_output(rt_log_buf);
+#endif /* RT_USING_DEVICE */
+    va_end(args);
+}
+RTM_EXPORT(rt_kvprintf);
 RT_WEAK void rt_kprintf(const char *fmt, ...)
 {
     va_list args;

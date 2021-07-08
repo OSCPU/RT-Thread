@@ -60,13 +60,13 @@ static const short __spm[13] =
 ALIGN(4) static const char days[] = "Sun Mon Tue Wed Thu Fri Sat ";
 ALIGN(4) static const char months[] = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec ";
 
-static int __isleap(int year)
-{
-    /* every fourth year is a leap year except for century years that are
-     * not divisible by 400. */
-    /*  return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)); */
-    return (!(year % 4) && ((year % 100) || !(year % 400)));
-}
+// static int __isleap(int year)
+// {
+//     /* every fourth year is a leap year except for century years that are
+//      * not divisible by 400. */
+//     /*  return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)); */
+//     return (!(year % 4) && ((year % 100) || !(year % 400)));
+// }
 
 static void num2str(char *c, int i)
 {

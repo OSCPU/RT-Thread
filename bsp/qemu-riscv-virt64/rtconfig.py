@@ -15,7 +15,9 @@ if os.getenv('RTT_CC'):
 
 if  CROSS_TOOL == 'gcc':
     PLATFORM    = 'gcc'
-    EXEC_PATH   = r'/home/lizhirui/workspace/riscv64-toolchains/bin'
+    # EXEC_PATH   = r'/opt/riscv/bin'
+    # EXEC_PATH   = r'/home/piper/Downloads/riscv64-unknown-elf-toolchain-10.2.0-2020.12.8-x86_64-linux-ubuntu14/bin'
+    EXEC_PATH   = r'/usr/bin'
 else:
     print('Please make sure your toolchains is GNU GCC!')
     exit(0)
@@ -27,27 +29,29 @@ BUILD = 'debug'
 
 if PLATFORM == 'gcc':
     # toolchains
-    PREFIX  = 'riscv64-unknown-elf-'
+    # PREFIX  = 'riscv64-unknown-elf-'
+    PREFIX  = 'riscv64-linux-gnu-'
     CC      = PREFIX + 'gcc'
     CXX     = PREFIX + 'g++'
     AS      = PREFIX + 'gcc'
     AR      = PREFIX + 'ar'
-    LINK    = PREFIX + 'gcc'
+    LINK    = PREFIX + 'ld'
     TARGET_EXT = 'elf'
     SIZE    = PREFIX + 'size'
     OBJDUMP = PREFIX + 'objdump'
     OBJCPY  = PREFIX + 'objcopy'
 
-    DEVICE  = ' -mcmodel=medany -march=rv64imafdc -mabi=lp64d'
+    DEVICE  = ' -fno-pic -march=rv64g -mcmodel=medany '
     CFLAGS  = DEVICE + ' -fvar-tracking -ffreestanding -fno-common -ffunction-sections -fdata-sections -fstrict-volatile-bitfields '
     AFLAGS  = ' -c' + DEVICE + ' -x assembler-with-cpp'
-    LFLAGS  = DEVICE + ' -nostartfiles -Wl,--gc-sections,-Map=rtthread.map,-cref,-u,_start -T link.lds -lc -lm '
+    # LFLAGS  = DEVICE + ' -static -nostartfiles -Wl,--gc-sections,-Map=rtthread.map,-cref,-u,_start -T link.lds -lc -lm '
+    LFLAGS  =   ' -static -melf64lriscv --gc-sections -Map=rtthread.map -cref -e _start -T link.lds '
     CPATH   = ''
     LPATH   = ''
 
     if BUILD == 'debug':
         CFLAGS += ' -O0 -ggdb'
-        AFLAGS += ' -ggdb'
+        AFLAGS += ' -ggdb '
     else:
         CFLAGS += ' -O2 -Os'
 

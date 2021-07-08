@@ -519,6 +519,7 @@ void rt_components_board_init(void);
 #define rt_kputs(str)
 #else
 void rt_kprintf(const char *fmt, ...);
+void rt_kvprintf(const char *fmt, va_list args);
 void rt_kputs(const char *str);
 #endif
 

@@ -99,8 +99,8 @@
 
 /* POSIX layer and C standard library */
 
-#define RT_USING_LIBC
-#define RT_USING_POSIX
+// #define RT_USING_LIBC
+// #define RT_USING_POSIX
 #define RT_LIBC_FIXED_TIMEZONE 8
 
 /* Network */
@@ -147,12 +147,14 @@
 
 /* language packages */
 
-
+// #define AT_USING_CLI
 /* multimedia packages */
-
-
+#define HAVE_SIGINFO
+#define HAVE_SIGVAL
+#define HAVE_SIGEVENT
+#define _TIMEVAL_DEFINED
+// #define RT_KSERVICE_USING_STDLIB
 /* tools packages */
-
 
 /* system packages */
 

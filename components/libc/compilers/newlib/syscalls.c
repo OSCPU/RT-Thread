@@ -11,7 +11,7 @@
  * 2020-02-24     Meco Man     fix bug of _isatty_r()
  */
 
-#include <reent.h>
+#include <sys/reent.h>
 #include <errno.h>
 #include <stdio.h>
 #include <sys/time.h>

@@ -96,7 +96,7 @@ static int drv_uart_getc(struct rt_serial_device *serial)
     } else {
         return -1;
     }
-    //return sbi_console_getchar();
+    // return sbi_console_getchar();
 }
 
 static void rt_hw_uart_isr(int irqno, void *param)

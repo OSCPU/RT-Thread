@@ -51,18 +51,7 @@ struct timespec {
 };
 #endif
 
-struct timezone {
-  int tz_minuteswest;   /* minutes west of Greenwich */
-  int tz_dsttime;       /* type of dst correction */
-};
 
-int stime(const time_t *t);
-time_t timegm(struct tm * const t);
-int gettimeofday(struct timeval *tv, struct timezone *tz);
-int settimeofday(const struct timeval *tv, const struct timezone *tz);
-#if defined(__ARMCC_VERSION) || defined (__ICCARM__)
-struct tm *gmtime_r(const time_t *timep, struct tm *r);
-#endif
 
 #ifdef RT_USING_POSIX
 #include <sys/types.h>
@@ -97,6 +86,20 @@ int clock_gettime (clockid_t clockid, struct timespec *tp);
 int clock_settime (clockid_t clockid, const struct timespec *tp);
 int clock_time_to_tick(const struct timespec *time);
 #endif /* RT_USING_POSIX */
+
+struct timezone {
+  int tz_minuteswest;   /* minutes west of Greenwich */
+  int tz_dsttime;       /* type of dst correction */
+};
+
+int stime(const time_t *t);
+time_t timegm(struct tm * const t);
+int gettimeofday(struct timeval *tv, struct timezone *tz);
+int settimeofday(const struct timeval *tv, const struct timezone *tz);
+#if defined(__ARMCC_VERSION) || defined (__ICCARM__)
+struct tm *gmtime_r(const time_t *timep, struct tm *r);
+#endif
+
 
 #ifdef __cplusplus
 }
