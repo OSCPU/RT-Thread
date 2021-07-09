@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "stddef.h": "c",
-        "rthw.h": "c",
-        "rtthread.h": "c",
-        "interrupt.h": "c"
-    }
-}
