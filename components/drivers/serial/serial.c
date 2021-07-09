@@ -835,10 +835,8 @@ static rt_size_t rt_serial_read(struct rt_device *dev,
                                 rt_size_t         size)
 {
     struct rt_serial_device *serial;
-
     RT_ASSERT(dev != RT_NULL);
     if (size == 0) return 0;
-
     serial = (struct rt_serial_device *)dev;
 
     if (dev->open_flag & RT_DEVICE_FLAG_INT_RX)

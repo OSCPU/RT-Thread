@@ -22,7 +22,6 @@ int tick_isr(void)
 
     clint->mtimecmp[core_id] += tick_cycles;
     rt_tick_increase();
-
     return 0;
 }
 

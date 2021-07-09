@@ -119,7 +119,6 @@ rt_err_t rt_thread_idle_delhook(void (*hook)(void))
 
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
-
     for (i = 0; i < RT_IDLE_HOOK_LIST_SIZE; i++)
     {
         if (idle_hook_list[i] == hook)
@@ -283,7 +282,6 @@ static void rt_thread_idle_entry(void *parameter)
 #ifdef RT_USING_IDLE_HOOK
         rt_size_t i;
         void (*idle_hook)(void);
-
         for (i = 0; i < RT_IDLE_HOOK_LIST_SIZE; i++)
         {
             idle_hook = idle_hook_list[i];
@@ -301,6 +299,7 @@ static void rt_thread_idle_entry(void *parameter)
 #ifdef RT_USING_PM
         rt_system_power_manager();
 #endif /* RT_USING_PM */
+    // rt_schedule();
     }
 }
 

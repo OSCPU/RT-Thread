@@ -171,10 +171,11 @@ static int finsh_getchar(void)
     return getchar();
 #else
     char ch = 0;
-
     RT_ASSERT(shell != RT_NULL);
-    while (rt_device_read(shell->device, -1, &ch, 1) != 1)
-        rt_sem_take(&shell->rx_sem, RT_WAITING_FOREVER);
+    while (rt_device_read(shell->device, -1, &ch, 1) != 1){
+        rt_thread_mdelay(20);
+    }
+        //rt_sem_take(&shell->rx_sem, RT_WAITING_FOREVER);
 
     return (int)ch;
 #endif
@@ -217,8 +218,7 @@ void finsh_set_device(const char *device_name)
     /* check whether it's a same device */
     if (dev == shell->device) return;
     /* open this device and set the new device in finsh shell */
-    if (rt_device_open(dev, RT_DEVICE_OFLAG_RDWR | RT_DEVICE_FLAG_INT_RX | \
-                       RT_DEVICE_FLAG_STREAM) == RT_EOK)
+    if (rt_device_open(dev, RT_DEVICE_OFLAG_RDWR | RT_DEVICE_FLAG_STREAM) == RT_EOK)
     {
         if (shell->device != RT_NULL)
         {
@@ -500,7 +500,6 @@ static void shell_push_history(struct finsh_shell *shell)
 void finsh_thread_entry(void *parameter)
 {
     int ch;
-
     /* normal is echo mode */
 #ifndef FINSH_ECHO_DISABLE_DEFAULT
     shell->echo_mode = 1;
@@ -511,7 +510,6 @@ void finsh_thread_entry(void *parameter)
 #ifndef FINSH_USING_MSH_ONLY
     finsh_init(&shell->parser);
 #endif
-
 #if !defined(RT_USING_POSIX) && defined(RT_USING_DEVICE)
     /* set console device as shell device */
     if (shell->device == RT_NULL)
@@ -523,7 +521,6 @@ void finsh_thread_entry(void *parameter)
         }
     }
 #endif
-
 #ifdef FINSH_USING_AUTH
     /* set the default password when the password isn't setting */
     if (rt_strlen(finsh_get_password()) == 0)
@@ -536,9 +533,7 @@ void finsh_thread_entry(void *parameter)
     /* waiting authenticate success */
     finsh_wait_auth();
 #endif
-
     rt_kprintf(FINSH_PROMPT);
-
     while (1)
     {
         ch = finsh_getchar();
@@ -815,7 +810,6 @@ int finsh_system_init(void)
 {
     rt_err_t result = RT_EOK;
     rt_thread_t tid;
-
 #ifdef FINSH_USING_SYMTAB
 #ifdef __ARMCC_VERSION  /* ARM C Compiler */
     extern const int FSymTab$$Base;
@@ -883,7 +877,6 @@ int finsh_system_init(void)
                             &finsh_thread_stack[0], sizeof(finsh_thread_stack),
                             FINSH_THREAD_PRIORITY, 10);
 #endif /* RT_USING_HEAP */
-
     rt_sem_init(&(shell->rx_sem), "shrx", 0, 0);
     finsh_set_prompt_mode(1);
 
