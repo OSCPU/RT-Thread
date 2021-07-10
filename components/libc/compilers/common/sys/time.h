@@ -30,8 +30,8 @@ extern "C" {
 #define DST_TUR     9   /* Turkey */
 #define DST_AUSTALT 10  /* Australian style with shift in 1986 */
 
-#ifndef _TIMEVAL_DEFINED
-#define _TIMEVAL_DEFINED
+#ifndef __timeval_defined
+#define __timeval_defined 1
 /*
  * Structure returned by gettimeofday(2) system call,
  * and used in other calls.

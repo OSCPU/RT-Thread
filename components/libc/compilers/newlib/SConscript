@@ -8,7 +8,8 @@ LIBS = []
 CPPDEFINES = []
 CPPPATH = [cwd]
 
-if rtconfig.PLATFORM == 'gcc':
+#if rtconfig.PLATFORM == 'gcc':
+if False:
     if GetDepend('RT_USING_LIBC'):
         CPPDEFINES += ['RT_USING_NEWLIB']
         # link with libc and libm:
@@ -26,4 +27,5 @@ if rtconfig.PLATFORM == 'gcc':
 
     group = DefineGroup('libc', src, depend = [], CPPPATH = CPPPATH, CPPDEFINES = CPPDEFINES, LIBS = LIBS)
 
+group = DefineGroup('libc', src, depend = [], CPPPATH = CPPPATH, CPPDEFINES = CPPDEFINES, LIBS = LIBS)
 Return('group')
